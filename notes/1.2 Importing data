@@ -1,0 +1,9 @@
+import pandas as pd
+
+# obsolete
+# fb=pd.DataFrame.from_csv('../data/facebook.csv')
+
+fb=pd.read_csv('../data/facebook.csv',index_col=0)
+# without index_col column with id will be created
+
+print(type(fb))
