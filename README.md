@@ -14,7 +14,19 @@ The aim of this project is to perform financial data analysis using Python and s
   * Statsmodels
 
 ## HOW TO RUN
-Nothing to run at this moment :)
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/your-project.git
+   ```
+2. Ensure that you have Python installed (version 3.x).
+3. Install required libraries:
+   ```bash
+   pip install -r requirements.txt
+   ``` 
+4. Run the project:
+   ```bash
+   python main.py  
+   ```
 
 ## LICENSE
 This project is licensed under the MIT License. Details can be found in the [LICENSE](LICENSE) file.
