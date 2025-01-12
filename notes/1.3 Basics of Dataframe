@@ -1,0 +1,33 @@
+# show first 5 rows
+print(data.head())
+
+# show all indexes
+print(data.index)
+
+# show first index
+print(data.index[0])
+
+# show last index
+print(data.index[-1])
+
+# show columns (index column is omitted)
+print(data.columns)
+
+# show number of rows and columns (index column is omitted)
+print(data.shape)
+
+# show last 5 rows
+print(data.tail())
+
+# show basic statistics for each column
+print(data.describe())
+
+# slicing DataFrame
+# slicing by label - .loc[<index_value>, '<column_name']
+print(data.loc[1716940800.0, 'high'])
+# slicing by position - .iloc[<index_position>, <column_position>] positions are numbered from 0
+print(data.iloc[0, 0])
+# slicing with multiple positions
+print(data.loc[1716768000.0:1716940800.0, 'open'])  # first and last position included
+print(data.iloc[0, :])  # all columns
+print(data.loc[1716940800.0, ['open', 'close']])  # specified columns
