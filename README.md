@@ -5,6 +5,8 @@ https://www.coursera.org/learn/python-statistics-financial-analysis
 This project was created as part of the "Python and Statistics for Financial Analysis" course on Coursera. 
 The aim of this project is to perform financial data analysis using Python and statistical libraries.
 
+Last finished lesson: 1.3 Basics of Dataframe
+
 ## REQUIREMENTS
 * Python 3.X (3.9.13 used in this project)
 * Libraries:
@@ -16,7 +18,7 @@ The aim of this project is to perform financial data analysis using Python and s
 ## HOW TO RUN
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/your-project.git
+   git clone https://github.com/kwczerwinski/Coursera-Python_and_Statistics_for_Financial_Analysis.git
    ```
 2. Ensure that you have Python installed (version 3.x).
 3. Install required libraries:
