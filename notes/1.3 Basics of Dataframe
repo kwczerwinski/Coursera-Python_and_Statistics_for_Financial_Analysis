@@ -31,3 +31,12 @@ print(data.iloc[0, 0])
 print(data.loc[1716768000.0:1716940800.0, 'open'])  # first and last position included
 print(data.iloc[0, :])  # all columns
 print(data.loc[1716940800.0, ['open', 'close']])  # specified columns
+
+# build-in plot in DataFrame (module matplotlib must be installed)
+# data.iloc[:9, 3].plot()  # plot first 10 close prices
+# data.iloc[10:19, 3].plot()  # plot next 10 close prices
+# data.iloc[20:29, 3].plot()  # there will be a gap between each lines
+# if plot is not visible (probably a default behaviour PyCharm)
+# from matplotlib import pyplot as plt
+# plt.show()
+# plot must be closed for program to continue (probably a default behaviour PyCharm)
