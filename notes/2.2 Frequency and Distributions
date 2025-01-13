@@ -18,3 +18,9 @@ mean = (X_distr[0] * X_distr['prob']).sum()
 print(mean)
 variance = ((X_distr[0] - mean) ** 2 * X_distr['prob']).sum()
 print(variance)
+
+# mean and variance of generated results
+rolls = 1000
+results = pd.Series([die.sample(2, replace=True).sum().loc[0] for _ in range(rolls)])
+print(results.mean())
+print(results.var())
