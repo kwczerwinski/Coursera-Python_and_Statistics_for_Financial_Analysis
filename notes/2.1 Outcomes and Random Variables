@@ -8,5 +8,9 @@ print(dice_throws)
 print(dice_throws.sum())
 print('Sum of dice:', dice_throws.sum().loc[0])
 
+trial = 50
+outcomes: list[int] = [die.sample(2, replace=True).sum().loc[0] for _ in range(trial)]
+print(outcomes)
+
 # if we know possible values of random variable it is then discrete random variable
 # if values of random variable can be every real number then it is continous random variable
