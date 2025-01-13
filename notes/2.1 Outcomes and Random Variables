@@ -7,3 +7,6 @@ dice_throws = die.sample(2, replace=True)
 print(dice_throws)
 print(dice_throws.sum())
 print('Sum of dice:', dice_throws.sum().loc[0])
+
+# if we know possible values of random variable it is then discrete random variable
+# if values of random variable can be every real number then it is continous random variable
