@@ -1,0 +1,32 @@
+# Simple strategy using Moving Averages
+data['MA10'] = data['close'].rolling(10).mean()  # fast signal
+data['MA50'] = data['close'].rolling(50).mean()  # slow signal
+# data['close'].tail(1000).plot()
+# data['MA10'].tail(1000).plot()
+# data['MA50'].tail(1000).plot()
+
+# buy 1 share if MA10>MA50 else sell it
+data['shares'] = [1 if data.loc[i, 'MA10'] > data.loc[i, 'MA50'] else 0 for i in data.index]
+# profit from using strategy above (simple calculations since we can only have 0 or 1 share)
+data['shares_profit'] = [data.loc[i, 'price_diff'] if data.loc[i, 'shares'] > 0 else 0 for i in data.index]
+print(data[data['shares'] > 0].loc[:, ['shares_profit']].head(50))
+# data['shares_profit'].plot()
+# data[data['shares'] > 0]['shares_profit'].plot()
+
+# calculating wealth
+data['wealth'] = data['shares_profit'].cumsum()
+print(data[['price_diff', 'shares', 'shares_profit', 'wealth']].tail(10))
+print(data.columns)
+# data['wealth'].plot()
+
+data['money_spent'] = [data.loc[i, 'close'] if data.loc[i, 'shares'] > 0 and data.shift(1).loc[i, 'shares'] == 0 else 0 for i in data.index]
+data['money_spent_sum'] = data['money_spent'].cumsum()
+print(data[['close', 'shares', 'money_spent', 'money_spent_sum']].tail(100).head(50))
+
+data['money_gain'] = [data.loc[i, 'close'] if data.loc[i, 'shares'] == 0 and data.shift(1).loc[i, 'shares'] > 0 else 0 for i in data.index]
+data['money_gain_sum'] = data['money_gain'].cumsum()
+print(data[['close', 'shares', 'money_gain', 'money_gain_sum']].tail(50))
+
+print('Total money spent: ', data['money_spent_sum'].dropna().iloc[-1])
+print('Total money gain: ', data['money_gain_sum'].dropna().iloc[-1])
+print('Total profit: ', data['wealth'].dropna().iloc[-1])
