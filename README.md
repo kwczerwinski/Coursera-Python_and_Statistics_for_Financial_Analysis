@@ -5,7 +5,7 @@ https://www.coursera.org/learn/python-statistics-financial-analysis
 This project was created as part of the "Python and Statistics for Financial Analysis" course on Coursera. 
 The aim of this project is to perform financial data analysis using Python and statistical libraries.
 
-Last finished lesson: 2.3 Models of Distribution
+Last finished lesson: 3.1 Population and Sample
 
 ## REQUIREMENTS
 * Python 3.X (3.9.13 used in this project)
@@ -13,7 +13,7 @@ Last finished lesson: 2.3 Models of Distribution
   * Pandas
   * Numpy
   * Matplotlib
-  * Statsmodels
+  * Scipy
 
 ## HOW TO RUN
 1. Clone the repository:
