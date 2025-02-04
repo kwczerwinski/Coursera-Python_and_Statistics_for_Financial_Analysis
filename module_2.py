@@ -49,7 +49,7 @@ import numpy as np
 data_header = ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'is_generated']
 data = pd.read_csv('data/TRADEGATE%DGD=D.csv', delimiter='\t', names=data_header)
 print(data.tail(10))
-#data.loc[2000:, 'close'].plot()
+# data.loc[2000:, 'close'].plot()
 
 # Log daily return
 data['log_daily_return'] = np.log(data['close']) - np.log(data['close'].shift(1))
