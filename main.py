@@ -109,4 +109,54 @@ print('\nSample stats:'
       '\n interval left: ', interval_left,
       '\ninterval right: ', interval_right)
 
+
+# Hypothesis testing
+# We can see on the plot that price is in upward trend, but is daily return positive?
+# Plots and histogram of daily return gave not obvoius answers.
+# First we set a hypotesis - there is Null Hypothesis (H_0; usually assertion we are against)
+#   and Alternative Hypothesis (H_a; accepted conclusion after rejecting null).
+# Example - H_0: average daily return = 0; H_a: average daily return != 0
+# x_bar - sample mean
+# mu - population mean
+# Assuming that H_0 is correct: mu = 0 => |x_bar - mu| ~= 0 (not large)
+# si - population std
+# n - sample size
+# Standarization (z-distribution): z_hat = (x_bar - mu) / (si / (n ** 0.5))
+# si is not known (usually) - using sample std (s) as replacement
+# New standarization (t-distribution): t_hat = (x_bar - mu) / (s / (n ** 0.5)) - it's tails are fatter.
+# t-distribution is dependent on degree of freedom id sample std (n-1), which increases with increased sample size.
+# We can treat t-distribution as z-distribution with large enough sample size. TODO: meaning? 5% population size?
+# z_hat = (x_bar - mu) / (s / (n ** 0.5))
+x_bar = data['log_return'].mean()
+mu = 0  # null assumption
+s = data['log_return'].std(ddof=1)
+n = data['log_return'].shape[0]
+z_hat = (x_bar - mu) / (s / (n ** 0.5))
+print(z_hat)
+
+# Decision criteria
+# two-tailed test - rejection regions before 2.5% and after 97.5% (alpha = 5%)
+# If z_hat is in the rejecion region, then we reject H_0.
+# For alpha = 5%, z_hat ~= +-1.96
+# Type 1 error - make wrong decision for accepting or rejection H_0
+alpha = 0.05
+z_left = norm.ppf(alpha/2, 0, 1)
+z_right = norm.ppf(1 - alpha/2, 0, 1)  # should equals (-z_left)
+print("Should we reject H_0? ", z_left > z_hat or z_hat > z_right)
+print("Probability of type 1 error: ", alpha * 100, "%")
+
+# Hypothesis for 1 tail test
+# H_0: mu <= 0; H_a > 0
+z_right = norm.ppf(1 - alpha, 0, 1)
+print("Should we reject H_0? ", z_hat > z_right)
+print("Probability of type 1 error: ", alpha * 100, "%")
+
+# P-value - probability of value being more extreme than observation
+# Reject H_0 if p < alpha
+p = 2 * (1 - norm.cdf(abs(z_hat), 0, 1))
+print('Reject H_0? ', p < alpha, ' (Significance: ', alpha * 100, '%)')
+# For H1: mu < 0 => p = norm.cdf(z_hat, 0, 1)
+# For H2: mu > 0 => p = 1 - norm.cdf(z_hat, 0, 1)
+
+
 plt.show()
