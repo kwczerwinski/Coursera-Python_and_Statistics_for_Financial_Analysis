@@ -53,6 +53,8 @@ import statsmodels.formula.api as smf
 # Normality - use quantile-quantile (QQ) plot
 import scipy.stats as stats
 import matplotlib.pyplot as plt
+
+
 # z = (<data error> - <data error>.mean()) / <data error>.std(ddof=1)  # TODO: shouldn't be 2?
 # stats.probplot(z, dist="norm", plot=plt)
 # plt.show()
@@ -64,3 +66,68 @@ import matplotlib.pyplot as plt
 # If at least one assumption is violated, then cannot make statistical inference,
 # however model accuracy and consistency doesn't rely on assumptions and still can be used.
 
+# Multiple linear regression model (MLRM)
+# Predicting SPY (S&P500)
+# Different markets have different opening and close times.
+# US Markets: SPY, S&P500, Nasdaq, Dji (FTSE 100 from UK is unavailable from Yahoo Finance, but it's still important)
+# EU Markets: CAC40, DAXI
+# Asian Markets: Aord, HSI, Nikkei
+#
+# Responce: SPY open price tomorrow - SPY open price today
+# Predictors:
+#   Group 1: US markets one day lag (open - open last day)
+#   Group 2: EU markets one day lag (open - open last day) - ideally it should be, price at noon - open price
+#   Group 3: Asian markets close - open prices
+#
+# Handling NA values:
+# 1. Fill-forward method - fill missing values by using last valid value: <data>=<data>.fillna(method='ffill')
+# 2. Drop first rows with NA: <data>.dropna()
+# 3. Check if any NA is still remaining: <data>.isnull().sum()
+#
+# Saving dataframe: <df>.to_csv('<path')
+#
+# Training and testing model
+# Split data into two parts - train and test
+# Stock markets are very noisy and correlations between them are tiny.
+# Building model: mlrm = smf.ols(formula='<responce>~<predictor1>+<predictor2>+...', data=<train_data>).fit()
+# mlrm.summary()
+# Prob (F-statistc) - overall significance of mlrm; if <0.05 then we know that some predictors are useful
+# only Aord have p-value <0.05
+# multicollinearity: two or more predictors are highly, linearly related (does not reduce predictive power)
+#
+# Making prediction
+# <train_data>['predictedY'] = mlrm.predict(<train_data>)
+# <test_data>['predictedY'] = mlrm.predict(<test_data>)
+# Real and predicted train data should have some correlation.
+#
+# Model evaluation
+# k - number of predictors
+# RSME = (SSE / (n - k - 1)) ** 0.5
+# Adjusted R^2 = 1 - (1 - R ** 2) * (n - 1) / (n - k - 1)
+
+# RMSE - Root Mean Squared Error, Adjusted R^2
+# model_k - number of predictors
+# yname - name of responce
+def adjusted_metric(data, model, model_k, yname):
+    data['yhat'] = model.predict(data)
+    SST = ((data[yname] - data[yname].mean()) ** 2).sum()
+    SSR = ((data['yhat'] - data[yname].mean()) ** 2).sum()
+    SSE = ((data[yname] - data['yhat']) ** 2).sum()
+    r2 = SSR / SST
+    adjustR2 = 1 - (1 - r2) * (data.shape[0] - 1) / (data.shape[0] - model_k - 1)
+    RMSE = (SSE / (data.shape[0] - model_k - 1)) ** 0.5
+    return adjustR2, RMSE
+
+
+import pandas as pd
+
+
+# model_k - number of predictors
+# yname - name of responce
+def assess_table(train, test, model, model_k, yname):
+    r2train, rmse_train = adjusted_metric(train, model, model_k, yname)
+    r2test, rmse_test = adjusted_metric(test, model, model_k, yname)
+    assessment = pd.DataFrame(index=['R2', 'RMSE'], columns=['Train', 'Test'])
+    assessment['Train'] = [r2train, rmse_train]
+    assessment['Test'] = [r2test, rmse_test]
+    return assessment
