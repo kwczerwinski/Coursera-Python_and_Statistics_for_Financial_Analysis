@@ -18,7 +18,7 @@ from pandas.plotting import scatter_matrix
 
 # Model is equation of Responce using predictors
 # Simple linear model regression - only one predictor
-# Assuming population is normal - responce popoulation is also normal, with equal variance
+# Assuming population is normal - responce population is also normal, with equal variance
 # Linearity: The mean of y is linearly determined by predictors
 # Independence: With different X, responses are independent
 # Normality: The random noise and y follow normal distributions
@@ -42,4 +42,25 @@ import statsmodels.formula.api as smf
 # P>[t] on <predictor> row - p-value should be less than 0.05 for model to be accepted
 # to the right we have bounds for 95% (deafult) confidence interval
 
+# Validating assumptions for linear regression model
+# Io other words - demonstrate that sample data is not against assumptions
+# Linearity - make scatter plot to show it exists or not
+# Independent - observed error is independent mutually, in other words, no serial correlation in errors
+# - make plot of errors (differences) between real results and response, and try to find a pattern
+# <data>['error'] = <data>['<responce>'] - <data>['BestResponse']
+# - Durbin-Watson test - visible in model.summary(), always [0, 4],
+#   0 is strong positive autocorrelation, 4 is strong negative autocorrelation, 2 is no autocorrelation
+# Normality - use quantile-quantile (QQ) plot
+import scipy.stats as stats
+import matplotlib.pyplot as plt
+# z = (<data error> - <data error>.mean()) / <data error>.std(ddof=1)  # TODO: shouldn't be 2?
+# stats.probplot(z, dist="norm", plot=plt)
+# plt.show()
+# plot should be a line, and around it should be scattered points that follows that line
+# Equal variance - plot error vs predictor
+# <data>.plot(kind='scatter', x='<responce>', y='error')
+# try to find pattern, like smaller variance at the end of plot
+
+# If at least one assumption is violated, then cannot make statistical inference,
+# however model accuracy and consistency doesn't rely on assumptions and still can be used.
 
