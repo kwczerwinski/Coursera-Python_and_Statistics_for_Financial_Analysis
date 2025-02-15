@@ -5,8 +5,6 @@ https://www.coursera.org/learn/python-statistics-financial-analysis
 This project was created as part of the "Python and Statistics for Financial Analysis" course on Coursera. 
 The aim of this project is to perform financial data analysis using Python and statistical libraries.
 
-Last finished lesson: 4.4 Multiple linear regression model
-
 ## REQUIREMENTS
 * Python 3.X (3.9.13 used in this project)
 * Libraries:

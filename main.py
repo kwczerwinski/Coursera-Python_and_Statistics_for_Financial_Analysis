@@ -131,3 +131,46 @@ def assess_table(train, test, model, model_k, yname):
     assessment['Train'] = [r2train, rmse_train]
     assessment['Test'] = [r2test, rmse_test]
     return assessment
+
+
+# Evaluate strategy
+# Strategy: buy 1 share when signal is positive, sell otherwise
+#
+# Train
+# Train['Order'] = [1 if sig>0 else -1 for sig in Train['PredictedY']]
+# Train['Profit'] = Train['spy'] * Train['Order']
+# Train['Wealth'] = Train['Profit'].cumsum()
+# print('Total profit made in Train: ', Train['Profit'].sum())
+# plt.figure(figsize=(10, 10))
+# plt.title('Performance of Strategy in Train')
+# plt.plot(Train['Wealth'].values, color='green', label='Signal based strategy')
+# plt.plot(Train['spy'].cumsum().values, color='red', label='Buy and Hold strategy')
+# plt.legend()
+# plt.show()
+#
+# Test
+# Test['Order'] = [1 if sig>0 else -1 for sig in Test['PredictedY']]
+# Test['Profit'] = Test['spy'] * Test['Order']
+# Test['Wealth'] = Test['Profit'].cumsum()
+# print('Total profit made in Test: ', Test['Profit'].sum())
+# plt.figure(figsize=(10, 10))
+# plt.title('Performance of Strategy in Train')
+# plt.plot(Test['Wealth'].values, color='green', label='Signal based strategy')
+# plt.plot(Test['spy'].cumsum().values, color='red', label='Buy and Hold strategy')
+# plt.legend()
+# plt.show()
+#
+# Include initial investment in wealth for computing Sharpe ratio
+# Train['Wealth'] = Train['Wealth'] + Train.loc[Train.index[0], 'Price']
+# Test['Wealth'] = Test['Wealth'] + Test.loc[Test.index[0], 'Price']
+#
+# Sharpe Ratio on Train data
+# Train['Return'] = np.log(Train['Wealth']) - np.log(Train['Wealth'].shift(1))
+# dailyr = Train['Return'].dropna()
+# print('Daily Sharpe Ratio is ', dailyr.mean()/dailyr.std(ddof=1))
+# print('Yearly Sharpe Ratio is ', (252**0.5)*dailyr.mean()/dailyr.std(ddof=1))
+#
+# Maximum Drawdown in Train data
+# Train['Peak'] = Train['Wealth'].cummax()
+# Train['Drawdown'] = (Train['Peak'] - Train['Wealth'])/Train['Peak']
+# print('Maximum Drawdown in Train is ', Train['Drawdown'].max())
